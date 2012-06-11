@@ -5,12 +5,14 @@ require "email_template/template"
 require "email_template/null_object"
 
 module EmailTemplate
+  extend self
+
   def all(mailers=ActionMailer::Base.subclasses)
-    mailers.map do |mailer|
+    [mailers].flatten.map do |mailer|
       files.map do |file|
         EmailTemplate::Template.new(file, mailer)
       end
-    end
+    end.flatten
 	end
   
   def template_path(mailer=ClinicalMailer)
