@@ -17,10 +17,11 @@ module EmailTemplate
 
     def safe_template
       temp = template.dup
-      temp.gsub!(/\s@[a-z]*/, "::EmailTemplate::NullObject.new")
       dynamic_elements.each do |element|
         temp.gsub!(element, "{{VARIABLE}}")
       end
+      temp.gsub!(/\s@[a-z]*/, "::EmailTemplate::NullObject.new")
+      temp.gsub!(/#/, "# ")
       temp
     end
 
